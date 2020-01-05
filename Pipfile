@@ -4,12 +4,19 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pycodestyle = "*"
 
 [packages]
 django = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+openpyxl = "*"
+drf-yasg = "*"
+requests = "*"
+django-q = "*"
+memcache = "*"
+python-memcached = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8.1"

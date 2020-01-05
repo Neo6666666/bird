@@ -20,7 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jm$xm*-12c73g&^+zd4^86(yj&9_8d^kvl$=(s(p0fx!lf&cp='
+SECRET_KEY = os.environ.get('SECRET_KEY',
+                            'jm$xm*-12c73g&^+zd4^86(yj&9_8d^kvl$=(s(p0fx!lf&cp=')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'drf_yasg',
+    'django_q',
+
+    'bluebird',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +125,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+
+Q_CLUSTER = {
+    'name': 'DjangORM',
+    'workers': 4,
+    'timeout': 30,
+    'retry': 10,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
+}
