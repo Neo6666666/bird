@@ -16,7 +16,7 @@ MIN_INNN_LEN = 10
 MAX_INN_LEN = 12
 
 TOKEN = os.environ.get('DADATA_TOKEN',
-                       '519fbd1afac8c2380f617046c95a6789a39fa021')
+                       '')
 URL = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party'
 
 
