@@ -5,7 +5,7 @@ import os
 from datetime import date
 
 from bluebird.models import KLASS_TYPES, Contragent
-from bluebird.serializers import ContragentSerializer
+from bluebird.serializers import ContragentFullSerializer
 
 from django.http import Http404
 from rest_framework.response import Response
@@ -70,17 +70,21 @@ def get_data(id: int):
     contragent = get_object(id, Contragent)
     data = get_dadata_data(contragent.inn)
     print('get data...')
-    if len(data['suggestions']):
-        result = {
-            'ogrn': int(data['suggestions'][0]['data']['ogrn']),
-            'legal_address': data['suggestions'][0]['data']['address']['data']['source'],
-            'creation_date': date.fromtimestamp(int(int(data['suggestions'][0]['data']['ogrn_date']) / 1000)),
-        }
-        serializer = ContragentSerializer(contragent, data=result)
-        if serializer.is_valid():
-            print('pre saving....')
-            serializer.save()
-            return "OK"
-        return "Not OK"
+    sug = data.get('suggestions', None)
+    if sug:
+        if len(sug):
+            result = {
+                'ogrn': int(sug[0]['data']['ogrn']),
+                'legal_address': sug[0]['data']['address']['data']['source'],
+                'creation_date': date.fromtimestamp(int(int(sug[0]['data']['ogrn_date']) / 1000)),
+            }
+            serializer = ContragentFullSerializer(contragent, data=result)
+            if serializer.is_valid():
+                print('pre saving....')
+                serializer.save()
+                return "OK"
+            return "Not OK"
+        else:
+            return "0 length suggestion, something wrong."
     else:
-        raise Http404
+        return "No suggestion, something terribly wrong."

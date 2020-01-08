@@ -4,7 +4,14 @@ from .models import Contragent
 from django_q.models import Task
 
 
-class ContragentSerializer(serializers.ModelSerializer):
+class ContragentShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contragent
+        fields = ['id', 'klass', 'excell_name',
+                  'inn', 'debt', 'physical_address']
+
+
+class ContragentFullSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contragent
         fields = '__all__'
