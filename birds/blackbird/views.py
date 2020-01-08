@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from blackbird.models import Formula, NormativeCategory
 
+from datetime import date, timedelta
+import calendar
+
 
 def calculate(*args, **kwargs):
     since_date = kwargs.get('since_date', None)  # Дата с начала расчета
@@ -34,6 +37,12 @@ def calculate(*args, **kwargs):
     #       <Val_wo_tax / V_month_rough > = Tariff_wo_tax
     #   + Берем фотмулу и подставляем туда значения
     result = []
+    if since_date.day == 1:
+        s_date = since_date
+    else:
+        s_date = date(since_date.year, since_date.month + 1,
+                      since_date.day)
+
     for curr_date in range():
         norm = get_normative(curr_date, norm_value)
         formula_rough = get_formula(curr_date)
