@@ -1,6 +1,7 @@
-from django.db import models
 import datetime
+
 from django.contrib.auth.models import User
+from django.db import models
 
 
 KLASS_TYPES = [
@@ -36,7 +37,9 @@ class Contragent(models.Model):
     okved = models.CharField(max_length=255, blank=True, null=True)
     physical_address = models.CharField(max_length=255)
     legal_address = models.CharField(max_length=255, blank=True, null=True)
-    norm_value = models.FloatField(blank=True, null=True)
+    norm_value = models.ForeignKey('NormativeCategory',
+                                   on_delete=models.CASCADE,
+                                   blank=True, null=True)
     stat_value = models.FloatField(blank=True, null=True)
     contract_accept_date = models.DateField(
         default=datetime.date.fromisoformat('2018-07-01'), blank=True,
@@ -52,3 +55,14 @@ class Contragent(models.Model):
                                      on_delete=models.CASCADE,
                                      related_name='current')
     platform = models.IntegerField(blank=True, null=True)
+
+
+class NormativeCategory(models.Model):
+    name = models.CharField(max_length=255)
+    normative = models.ManyToManyField('Normative', related_name='normatives')
+
+
+class Normative(models.Model):
+    since_date = models.DateField(null=True, blank=True)
+    up_to_date = models.DateField(null=True, blank=True)
+    value = models.FloatField(null=True, blank=True)

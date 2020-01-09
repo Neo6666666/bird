@@ -4,18 +4,16 @@ from django.db import models
 class Formula(models.Model):
     since_date = models.DateField(null=True, blank=True)
     up_to_date = models.DateField(null=True, blank=True)
-    # tax_rate = models.FloatField(default=0.0)
-    # tariff = models.FloatField(default=0.0)
+    tax_rate = models.FloatField(default=0.0)
+    tariff = models.FloatField(default=0.0)
     is_rough = models.BooleanField(default=True)
     equasion = models.TextField(max_length=300)
 
+    def get_formula(self):
+        return self.equasion
 
-class NormativeCategory(models.Model):
-    name = models.CharField(max_length=255)
-    normative = models.ManyToManyField('Normative', related_name='normatives')
+    def get_tax(self):
+        return self.tax_rate
 
-
-class Normative(models.Model):
-    since_date = models.DateField(null=True, blank=True)
-    up_to_date = models.DateField(null=True, blank=True)
-    value = models.FloatField(null=True, blank=True)
+    def get_tariff(self):
+        return self.tariff

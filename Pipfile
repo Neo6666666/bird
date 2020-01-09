@@ -15,7 +15,6 @@ openpyxl = "*"
 drf-yasg = "*"
 requests = "*"
 django-q = "*"
-memcache = "*"
 python-memcached = "*"
 
 [requires]

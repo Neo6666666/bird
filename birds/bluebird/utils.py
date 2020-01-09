@@ -1,15 +1,15 @@
 import openpyxl
 import requests
 import json
+import uuid
 import os
 from datetime import date
+from typing import List
 
 from bluebird.models import KLASS_TYPES, Contragent
 from bluebird.serializers import ContragentFullSerializer
 
 from django.http import Http404
-from rest_framework.response import Response
-from rest_framework import status
 
 
 MIN_INNN_LEN = 10
@@ -88,3 +88,11 @@ def get_data(id: int):
             return "0 length suggestion, something wrong."
     else:
         return "No suggestion, something terribly wrong."
+
+
+def generate_documents(data: List):
+    pass
+
+
+def create_unique_id():
+    return str(uuid.uuid4())
