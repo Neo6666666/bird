@@ -18,9 +18,6 @@ from datetime import date
 import calendar
 
 
-if __name__ == '__main__':
-    pass
-
 
 def calculate(*args, **kwargs):
     since_date = kwargs.get('since_date', None)  # Дата с начала расчета

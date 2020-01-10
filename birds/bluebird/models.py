@@ -19,9 +19,9 @@ class Contragent(models.Model):
     excell_name = models.CharField(max_length=255)
     dadata_name = models.CharField(max_length=255, blank=True, null=True)
     debt = models.FloatField(default=0.00)
-    inn = models.IntegerField(blank=True, null=True)
-    ogrn = models.IntegerField(blank=True, null=True)
-    kpp = models.IntegerField(blank=True, null=True)
+    inn = models.BigIntegerField(blank=True, null=True)
+    ogrn = models.BigIntegerField(blank=True, null=True)
+    kpp = models.BigIntegerField(blank=True, null=True)
 
     rs = models.CharField('Р/с', max_length=255, blank=True, null=True)
     ks = models.CharField('К/с', max_length=255, blank=True, null=True)

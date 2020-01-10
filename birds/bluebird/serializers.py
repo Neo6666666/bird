@@ -15,6 +15,12 @@ class ContragentFullSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contragent
         fields = '__all__'
+        extra_kwargs = {'klass': {'required': False},
+                        'excell_name': {'required': False},
+                        'inn': {'required': False},
+                        'debt': {'required': False},
+                        'physical_address': {'required': False},
+                        }
 
 
 class TaskSerializer(serializers.ModelSerializer):

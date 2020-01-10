@@ -20,5 +20,5 @@ from .swagger_api import urlpatterns as swag
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('bluebird.urls')),
+    path('api/', include('bluebird.urls')),
 ] + swag

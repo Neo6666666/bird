@@ -1,0 +1,67 @@
+version: '3'
+services: 
+
+  postgres:
+    env_file: .env
+    container_name: 'postgres'
+    image: postgres
+    volumes: 
+      - db_data:/var/lib/postgresql/data
+    networks: 
+      private_network:
+        ipv4_address: 172.25.0.2
+
+  pg-admin:
+    env_file: .env
+    container_name: 'pgadmin'
+    image: dpage/pgadmin4:latest
+    ports: 
+      - 8088:80
+    networks: 
+      private_network:
+        ipv4_address: 172.25.0.3
+
+  backend:
+    container_name: 'birds'
+    user: ${CURRENT_UID}
+    env_file: .env
+    build: 
+      context: .
+    command: './wait-for-initialization.sh'
+    volumes: 
+      - ./birds:/src/
+      - ./wait-for-initialization.sh:/src/wait-for-initialization.sh:ro
+      - ./birds/static:/src/static
+      - ./birds/media:/src/media
+    depends_on: 
+      - postgres
+    networks: 
+      private_network:
+        ipv4_address: 172.25.0.4
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.17-alpine
+    restart: on-failure
+    ports:
+      - 80:80
+    volumes:
+      - ./birds/nginx/dev.conf:/etc/nginx/nginx.conf:ro
+      - ./birds/static:/src/static
+      - ./birds/media:/src/media
+    depends_on:
+      - backend
+      # - frontend
+    networks:
+      private_network:
+        ipv4_address: 172.25.0.5
+
+networks: 
+  private_network:
+    ipam: 
+      driver: default
+      config: 
+        - subnet: 172.25.0.0/16
+
+volumes:
+  db_data:
